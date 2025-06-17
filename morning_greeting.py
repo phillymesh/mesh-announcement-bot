@@ -3,12 +3,13 @@ import meshtastic.tcp_interface
 from utils import splitter, sequencer
 import requests
 import time, schedule
-import datetime
 
 # sequence format: (x/y), so let's say 5 characters reserved
 max_length = 200 - 5
 wait_time = 30  # time between each packet in seconds
+node_host = "10.0.0.222"
 
+print("Starting server")
 
 def morning_greeting():
     weatherdata = requests.get(
@@ -36,15 +37,13 @@ def morning_greeting():
 
     packets = sequencer(messages)
 
-    with meshtastic.tcp_interface.TCPInterface(hostname="10.0.0.222") as interface:
+    with meshtastic.tcp_interface.TCPInterface(hostname=node_host) as interface: # automatically close when done/erroring
         for packet in packets:
             print(packet)
-            interface.sendText(packet, channelIndex=0)
+            interface.sendText(packet, channelIndex=0, wantAck=True)
             print()
             print("Sleeping to avoid flooding the net")
             time.sleep(wait_time)  # wait before sending next packet
-
-    interface.close()  # should close automatically but I don't entirely trust it
 
 
 schedule.every().day.at("09:00", "America/New_York").do(morning_greeting)
@@ -59,7 +58,7 @@ def format_time_left(seconds_left):
 
 while True:
     schedule.run_pending()
-    print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
+    # print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
     try:
         time.sleep(60)
     except KeyboardInterrupt:
