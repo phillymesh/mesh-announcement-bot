@@ -39,6 +39,8 @@ def morning_greeting():
     packets = sequencer(messages)
 
     with meshtastic.tcp_interface.TCPInterface(hostname=node_host) as interface: # automatically close when done/erroring
+        # let's make sure the connection works first
+        interface._waitConnected()
         for packet in packets:
             print(packet)
             interface.sendText(packet, channelIndex=0, wantAck=True)
