@@ -10,9 +10,13 @@ wait_time = 30  # time between each packet in seconds
 node_host = "10.0.0.222"
 
 
-def morning_greeting():
+def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
+    """
+    By default broadcasts to the whole mesh, but can broadcast to a specific address nuimber if specified
+    """
     print("Starting Morning Greeting")
-    time.sleep(random.randint(0,300)) # sleep for a random time, up to 5 minutes
+    if dest == meshtastic.BROADCAST_ADDR:  # sending broadcast, so add a random delay
+        time.sleep(random.randint(0, 300))  # sleep for up to 5 minutes
     print("Fetching weather data")
     weatherdata = requests.get(
         "https://api.weather.gov/gridpoints/PHI/50,76/forecast"
@@ -39,11 +43,16 @@ def morning_greeting():
 
     packets = sequencer(messages)
 
-    with meshtastic.tcp_interface.TCPInterface(hostname=node_host) as interface: # automatically close when done/erroring
+    print("Connecting to node")
+    with meshtastic.tcp_interface.TCPInterface(
+        hostname=node_host
+    ) as interface:  # automatically close when done/erroring
         # let's make sure the connection works first
         interface._waitConnected()
+        print("Connected")
+        time.sleep(wait_time)  # wait before sending first packet
         for packet in packets:
-            interface.sendText(packet, channelIndex=0, wantAck=True)
+            interface.sendText(packet, destinationId=dest, wantAck=True)
             print(packet)
             print()
             # print("Sleeping to avoid flooding the net")
@@ -59,7 +68,8 @@ def format_time_left(seconds_left):
     minutes, seconds = divmod(rem, 60)
     return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
-if __name__ == "__main__": # allow for manual running
+
+if __name__ == "__main__":  # allow for manual running
     print("Starting server")
     while True:
         schedule.run_pending()
