@@ -23,6 +23,14 @@ def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
     weatherdata = requests.get(
         "https://api.weather.gov/gridpoints/PHI/50,76/forecast"
     ).json()
+    update_time = datetime.astimezone(datetime.fromisoformat(weatherdata['properties']['updateTime']))
+    print("Time since forecast update:")
+    print(datetime.astimezone(datetime.now())-update_time)
+
+    generate_time = datetime.astimezone(datetime.fromisoformat(weatherdata['properties']['generatedAt']))
+    print("Time since forecast generated:")
+    print(datetime.astimezone(datetime.now())-generate_time)
+
     forecasts = weatherdata["properties"]["periods"]
 
     morning_greeting = "Good Morning Mesh from South Rittenhouse!"
