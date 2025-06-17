@@ -12,6 +12,7 @@ node_host = "10.0.0.222"
 print("Starting server")
 
 def morning_greeting():
+    print("Starting Morning Greeting")
     time.sleep(random.randint(0,300)) # sleep for a random time, up to 5 minutes
     weatherdata = requests.get(
         "https://api.weather.gov/gridpoints/PHI/50,76/forecast"
@@ -42,8 +43,8 @@ def morning_greeting():
         # let's make sure the connection works first
         interface._waitConnected()
         for packet in packets:
-            print(packet)
             interface.sendText(packet, channelIndex=0, wantAck=True)
+            print(packet)
             print()
             # print("Sleeping to avoid flooding the net")
             time.sleep(wait_time)  # wait before sending next packet
