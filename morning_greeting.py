@@ -49,7 +49,7 @@ def morning_greeting():
             time.sleep(wait_time)  # wait before sending next packet
 
 
-schedule.every().day.at("8:30", "America/New_York").do(morning_greeting)
+schedule.every().day.at("08:30", "America/New_York").do(morning_greeting)
 
 
 def format_time_left(seconds_left):
