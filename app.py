@@ -44,6 +44,9 @@ schedule.every().day.at("08:30", "America/New_York").do(
 schedule.every().saturday.at("08:31", "America/New_York").do(
     send_packets, packets=discord_plug()
 )
+schedule.every().sunday.at("8:31", "America/New_York").do(
+    send_packets, packets=upcoming_events()
+)
 
 if __name__ == "__main__":
     print("Starting server")
