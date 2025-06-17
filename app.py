@@ -3,7 +3,7 @@ import meshtastic.tcp_interface
 from utils import splitter, sequencer
 import time, schedule, random
 from datetime import datetime
-from secrets import node_host
+from utils import secrets
 from morning_greeting import morning_greeting
 from upcoming_events import upcoming_events
 
@@ -15,13 +15,13 @@ wait_time = 30  # time between each packet in seconds
 
 def discord_plug() -> list[str]:
     text = "Join the Philly Mesh Discord! https://discord.gg/MWWbAkRR9v"
-    return splitter(discord_plug)
+    return splitter(text)
 
 
 def send_packets(packets: list[str], dest: int | str = meshtastic.BROADCAST_ADDR):
     print("Connecting to node")
     with meshtastic.tcp_interface.TCPInterface(
-        hostname=node_host
+        hostname=secrets['node_host']
     ) as interface:  # automatically close when done/erroring
         # let's make sure the connection works first
         interface._waitConnected()

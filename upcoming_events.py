@@ -2,7 +2,7 @@ from utils import sequencer, max_length, splitter
 from datetime import datetime, tzinfo, timedelta
 from zoneinfo import ZoneInfo
 import requests
-from secrets import guild_id, bot_token
+from utils import secrets
 from urllib.parse import unquote
 
 # Time format: "%a %b %d %H:%M" -> Mon Jun 16 20:30
@@ -23,8 +23,8 @@ def upcoming_events() -> list[str]:
     messages.append(f"Upcoming Events for the week of {today.strftime("%b %d")}:\n")
 
     r = requests.get(
-        f"{baseurl}/guilds/{guild_id}/scheduled-events",
-        headers={"Authorization": f"Bot {bot_token}"},
+        f"{baseurl}/guilds/{secrets['guild_id']}/scheduled-events",
+        headers={"Authorization": f"Bot {secrets['bot_token']}"},
     )
     try:
         assert r.status_code == 200
