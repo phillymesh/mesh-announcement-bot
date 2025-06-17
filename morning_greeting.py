@@ -2,7 +2,7 @@ import meshtastic
 import meshtastic.tcp_interface
 from utils import splitter, sequencer
 import requests
-import time, schedule
+import time, schedule, random
 
 # sequence format: (x/y), so let's say 5 characters reserved
 max_length = 200 - 5
@@ -12,6 +12,7 @@ node_host = "10.0.0.222"
 print("Starting server")
 
 def morning_greeting():
+    time.sleep(random.randint(0,300)) # sleep for a random time, up to 5 minutes
     weatherdata = requests.get(
         "https://api.weather.gov/gridpoints/PHI/50,76/forecast"
     ).json()
@@ -42,11 +43,11 @@ def morning_greeting():
             print(packet)
             interface.sendText(packet, channelIndex=0, wantAck=True)
             print()
-            print("Sleeping to avoid flooding the net")
+            # print("Sleeping to avoid flooding the net")
             time.sleep(wait_time)  # wait before sending next packet
 
 
-schedule.every().day.at("09:00", "America/New_York").do(morning_greeting)
+schedule.every().day.at("8:30", "America/New_York").do(morning_greeting)
 
 
 def format_time_left(seconds_left):
