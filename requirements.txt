@@ -1,0 +1,4 @@
+requests
+meshtastic
+schedule
+pytz
