@@ -9,11 +9,11 @@ max_length = 200 - 5
 wait_time = 30  # time between each packet in seconds
 node_host = "10.0.0.222"
 
-print("Starting server")
 
 def morning_greeting():
     print("Starting Morning Greeting")
     time.sleep(random.randint(0,300)) # sleep for a random time, up to 5 minutes
+    print("Fetching weather data")
     weatherdata = requests.get(
         "https://api.weather.gov/gridpoints/PHI/50,76/forecast"
     ).json()
@@ -60,6 +60,7 @@ def format_time_left(seconds_left):
     return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
 if __name__ == "__main__": # allow for manual running
+    print("Starting server")
     while True:
         schedule.run_pending()
         # print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
