@@ -6,8 +6,8 @@ def splitter(long_text: str, max_length: int = 190) -> list[str]:
     """
     Takes in a large block of text and chunks it into individual messages up to a max length, splitting on periods
     """
-    sentences = long_text.split(".")
-    sentences = [_ + "." for _ in sentences if _]  # add the periods back in
+    sentences = long_text.split(". ")
+    sentences = [_ + ". " for _ in sentences if _]  # add the periods back in
 
     chunks = []
     current_string = ""
@@ -19,7 +19,7 @@ def splitter(long_text: str, max_length: int = 190) -> list[str]:
             chunks.append(current_string)
             current_string = next_sentence
     chunks.append(current_string)  # add the last chunk
-    chunks = [_.strip(".").strip() for _ in chunks if _]  # remove extra characters
+    chunks = [_.strip().strip(".").strip() for _ in chunks if _]  # remove extra characters
     return chunks
 
 
