@@ -16,6 +16,7 @@ def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
     By default broadcasts to the whole mesh, but can broadcast to a specific address nuimber if specified
     """
     print("Starting Morning Greeting")
+    print(f"Today is {datetime.date(datetime.now()).isoformat()}")
     if dest == meshtastic.BROADCAST_ADDR:  # sending broadcast, so add a random delay
         time.sleep(random.randint(0, 300))  # sleep for up to 5 minutes
     print("Fetching weather data")
