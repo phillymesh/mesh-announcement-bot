@@ -58,12 +58,12 @@ def format_time_left(seconds_left):
     minutes, seconds = divmod(rem, 60)
     return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
-
-while True:
-    schedule.run_pending()
-    # print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
-    try:
-        time.sleep(60)
-    except KeyboardInterrupt:
-        print("Exiting")
-        exit()
+if __name__ == "__main__": # allow for manual running
+    while True:
+        schedule.run_pending()
+        # print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
+        try:
+            time.sleep(60)
+        except KeyboardInterrupt:
+            print("Exiting")
+            exit()
