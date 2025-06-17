@@ -3,6 +3,7 @@ import meshtastic.tcp_interface
 from utils import splitter, sequencer
 import requests
 import time, schedule, random
+from datetime import datetime
 
 # sequence format: (x/y), so let's say 5 characters reserved
 max_length = 200 - 5
@@ -39,7 +40,10 @@ def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
     messages += splitter(morning_greeting, max_length)
     messages += splitter(weather_messages[0], max_length)
     messages += splitter(weather_messages[1], max_length)
-    messages += splitter(discord_plug)
+
+    # only add discord plug once a week on saturdays
+    if datetime.weekday(datetime.now()) == 5:
+        messages += splitter(discord_plug)
 
     packets = sequencer(messages)
 
