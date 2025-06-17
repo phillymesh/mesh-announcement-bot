@@ -19,7 +19,9 @@ def splitter(long_text: str, max_length: int = 190) -> list[str]:
             chunks.append(current_string)
             current_string = next_sentence
     chunks.append(current_string)  # add the last chunk
-    chunks = [_.strip().strip(".").strip() for _ in chunks if _]  # remove extra characters
+    chunks = [
+        _.strip().strip(".").strip() for _ in chunks if _
+    ]  # remove extra characters
     return chunks
 
 
