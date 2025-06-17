@@ -35,7 +35,7 @@ def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
         weather_text += forecast["detailedForecast"]
         weather_messages.append(weather_text)
 
-    discord_plug = "Join the Philly Mesh Discord! https://discord.gg/hKCdVNuxFR"
+    discord_plug = "Join the Philly Mesh Discord! https://discord.gg/MWWbAkRR9v"
 
     messages = []
     messages += splitter(morning_greeting, max_length)
