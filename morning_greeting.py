@@ -54,13 +54,11 @@ def morning_greeting(dest: int | str = meshtastic.BROADCAST_ADDR):
         # let's make sure the connection works first
         interface._waitConnected()
         print("Connected")
-        time.sleep(wait_time)  # wait before sending first packet
         for packet in packets:
+            time.sleep(wait_time)  # wait before sending the packet
             interface.sendText(packet, destinationId=dest, wantAck=True)
             print(packet)
             print()
-            # print("Sleeping to avoid flooding the net")
-            time.sleep(wait_time)  # wait before sending next packet
 
 
 schedule.every().day.at("08:30", "America/New_York").do(morning_greeting)
