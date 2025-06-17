@@ -3,4 +3,4 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-CMD [ "python" , "-u", "./morning_greeting.py"]
+CMD [ "python" , "-u", "./app.py"]

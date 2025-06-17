@@ -1,4 +1,4 @@
-# edit this file and rename to serets.py
+# edit this file and rename to secrets.py
 
 # IP of the meshtastic node
 node_host = "10.0.0.100"
