@@ -1,6 +1,8 @@
 # sequence format: (x/y), let's cap it at 10 reserved chars for safety -> 190
 max_length = 190
 
+import json
+secrets = json.load(open('secrets.json'))
 
 def splitter(long_text: str, max_length: int = 190) -> list[str]:
     """
