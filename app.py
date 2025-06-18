@@ -6,6 +6,7 @@ from datetime import datetime
 from utils import secrets
 from morning_greeting import morning_greeting
 from upcoming_events import upcoming_events
+from collections.abc import Callable
 
 wait_time = 30  # time between each packet in seconds
 
@@ -18,7 +19,8 @@ def discord_plug() -> list[str]:
     return splitter(text)
 
 
-def send_packets(packets: list[str], dest: int | str = meshtastic.BROADCAST_ADDR):
+def send_packets(packet_maker:Callable[[],list[str]], dest: int | str = meshtastic.BROADCAST_ADDR):
+    packets = packet_maker()
     print("Connecting to node")
     with meshtastic.tcp_interface.TCPInterface(
         hostname=secrets['node_host']
@@ -39,20 +41,19 @@ def send_packets(packets: list[str], dest: int | str = meshtastic.BROADCAST_ADDR
 
 
 schedule.every().day.at("08:30", "America/New_York").do(
-    send_packets, packets=morning_greeting()
+    send_packets, packet_maker=morning_greeting
 )
 schedule.every().saturday.at("08:31", "America/New_York").do(
-    send_packets, packets=discord_plug()
+    send_packets, packet_maker=discord_plug
 )
 schedule.every().sunday.at("08:31", "America/New_York").do(
-    send_packets, packets=upcoming_events()
+    send_packets, packet_maker=upcoming_events
 )
 
 if __name__ == "__main__":
     print("Starting server")
     while True:
         schedule.run_pending()
-        # print(f"Remaining time until next: {format_time_left(schedule.idle_seconds())}")
         try:
             time.sleep(60)  # fire once a minute
         except KeyboardInterrupt:
