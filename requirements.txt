@@ -1,4 +1,4 @@
-requests
-meshtastic
-schedule
-pytz
+requests==2.32.4
+meshtastic==2.6.3
+schedule==1.2.2
+pytz==2025.2
