@@ -4,7 +4,7 @@ This program is designed to connect to a meshtastic node over WiFi and broadcast
 Written for and deployed in the [Philadelphia Mesh](https://phillymesh.net)
 
 Current announcements:
-- Every morning at 8:30AM, announce the weather forecaset from weather.gov for Philadelphia
+- Every morning at 8:30AM, announce the weather forecast from weather.gov for Philadelphia
 - Every Saturday include a plug for the PhillyMesh/Philly Radio Discord
 - Every Sunday include a list of upcoming mesh-related events
   - Event data is sourced from the Discord event calendar
@@ -16,11 +16,11 @@ Everything is designed to run in a docker container, but can be run directly in 
 2. Rename secrets.example.json to secrets.json and add necessary values
     - Node host is the IP address of your meshtastic node
     - Discord guild ID is the ID of your discord server 
-    - You'll need to get a disord bot key from the developer portal, and add it to your discord server.
+    - You'll need to get a discord bot key from the developer portal, and add it to your discord server.
 3. Change the code as needed to reflect the needs of your mesh (weather location, timezones, etc)
 3. Build and start the image, or run the script directly
 
-## Adding new announements
+## Adding new announcements
 I'm using the [schedule](https://schedule.readthedocs.io/en/stable/) library to manage scheduling.
 
 To create a new announcement, add a new schedule line to app.py, including a function that returns an array of strings (see discord_plug for a simple example).

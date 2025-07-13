@@ -1,12 +1,13 @@
-from utils import splitter, sequencer
-import requests
-import time, random
 from datetime import datetime
+
+import requests
+
+from utils import sequencer, splitter
 
 
 def morning_greeting() -> list[str]:
     """
-    By default broadcasts to the whole mesh, but can broadcast to a specific address nuimber if specified
+    By default broadcasts to the whole mesh, but can broadcast to a specific address number if specified
     """
     print("Starting Morning Greeting")
     print(f"Today is {datetime.date(datetime.now()).isoformat()}")

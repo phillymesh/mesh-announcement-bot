@@ -1,9 +1,10 @@
-from utils import sequencer, max_length, splitter
-from datetime import datetime, tzinfo, timedelta
-from zoneinfo import ZoneInfo
-import requests
-from utils import secrets
+from datetime import datetime, timedelta
 from urllib.parse import unquote
+from zoneinfo import ZoneInfo
+
+import requests
+
+from utils import max_length, secrets, sequencer
 
 # Time format: "%a %b %d %H:%M" -> Mon Jun 16 20:30
 
@@ -20,7 +21,7 @@ def upcoming_events() -> list[str]:
     # initial message
     # "Upcoming Events for the week of Jun 17"
     today = datetime.now().astimezone(tz)  # ensure it's EST no matter where deployed
-    messages.append(f"Upcoming Events for the week of {today.strftime("%b %d")}:\n")
+    messages.append(f"Upcoming Events for the week of {today.strftime('%b %d')}:\n")
 
     r = requests.get(
         f"{baseurl}/guilds/{secrets['guild_id']}/scheduled-events",
@@ -54,7 +55,7 @@ def upcoming_events() -> list[str]:
     # message format:
     # Event name
     # Event start time (and optional end time)
-    # Event Loation
+    # Event Location
     # Event details
     # truncate the whole thing to 190 characters
     # and add the sequencer

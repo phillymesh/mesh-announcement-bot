@@ -1,8 +1,11 @@
+import json
+
 # sequence format: (x/y), let's cap it at 10 reserved chars for safety -> 190
 max_length = 190
 
-import json
-secrets = json.load(open('secrets.json'))
+
+secrets = json.load(open("secrets.json"))
+
 
 def splitter(long_text: str, max_length: int = 190) -> list[str]:
     """
@@ -13,7 +16,7 @@ def splitter(long_text: str, max_length: int = 190) -> list[str]:
 
     chunks = []
     current_string = ""
-    while sentences:  # still some remainint text
+    while sentences:  # still some remaining text
         next_sentence = sentences.pop(0)  # grab the next sentence off the front
         if len(current_string + next_sentence) < max_length:
             current_string += next_sentence  # keep adding since there's still room
@@ -31,7 +34,7 @@ def sequencer(packets: list[str]) -> list[str]:
     total = len(packets)
     newpackets = []
     for idx, packet in enumerate(packets):
-        newpackets.append(packet + f" ({idx+1}/{total})")
+        newpackets.append(packet + f" ({idx + 1}/{total})")
     return newpackets
 
 
